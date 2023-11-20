@@ -1,73 +1,58 @@
 class Node():
-    """ Node """
     def __init__(self, value):
+        self.prev = None
         self.value = value
         self.next = None
 
 class BrowserHistory():
-    """ linked list """
-    def __init__(self, value):
-        node = Node(value)
+    def __init__(self, homepage):
+        node = Node(homepage)
         self.head = node
         self.tail = node
-        self.index = 0
-        print(None)
+        self.curr = node
     
-    def len(self):
-        """ function """
-        count = 1
-        current_node = self.head
-        while current_node.next is not None:
-            current_node = current_node.next
-            count += 1
-        return count
+    def visit(self, url):
+        node = Node(url)
+        self.curr.next = node
+        node.prev = self.curr
+        self.tail = node
+        self.curr = node
+        return None
 
-    def visit(self, value):
-        """ function """
-        node = Node(value)
-        current_node = self.head
-        for _ in range(self.index):
-            current_node = current_node.next
-        current_node.next = node
-        self.index += 1
-        print("None")
+    def back(self, steps):
+        while steps > 0:
+            print(steps)
+            if self.curr.prev == None:
+                break
+            self.curr = self.curr.prev    
+            steps -= 1
+        return self.curr.value
     
-    def back(self, number):
-        """ function """
-        current_node = self.head
-        if self.index < number:
-            for _ in range(0):
-                current_node = current_node.next
-            self.index -= self.index
-            print(current_node.value)
-        else:
-            for _ in range(self.index-number):
-                current_node = current_node.next
-            self.index -= number
-            print(current_node.value)
-    
-    def forward(self, number):
-        current_node = self.head
-        if self.len()-self.index < number:
-            for _ in range(self.len()-1):
-                current_node = current_node.next
-            self.index = self.len()-1
-            print(current_node.value)
-        else:
-            for _ in range(self.index+number):
-                current_node = current_node.next
-            self.index += number
-            print(current_node.value)
+    def forward(self, steps):
+        while steps > 0:
+            if self.curr.next == None:
+                break
+            self.curr = self.curr.next
+            steps -= 1
+        return self.curr.value
+
+'''
+[["leetcode.com"],["google.com"],["facebook.com"],["youtube.com"],[1],[1],[1],["linkedin.com"],[2],[2],[7]]
+'''
 
 if __name__ == "__main__":
-    browserHistory = BrowserHistory('leetcode.com')
-    browserHistory.visit("gooogle.com")
-    browserHistory.visit("facebook.com")
-    browserHistory.visit("youtube.com")
-    browserHistory.back(1)
-    browserHistory.back(1)
-    browserHistory.forward(1)
-    browserHistory.visit("linkedin.com")
-    browserHistory.forward(2)
-    browserHistory.back(2)
-    browserHistory.back(7)
+    result_list = list()
+    browserHistory = BrowserHistory("leetcode.com")
+    result_list.append(browserHistory.visit("google.com"))
+    result_list.append(browserHistory.visit("facebook.com"))
+    result_list.append(browserHistory.visit("youtube.com"))
+
+    result_list.append(browserHistory.back(1))
+    result_list.append(browserHistory.back(1))
+    result_list.append(browserHistory.forward(1))
+
+    result_list.append(browserHistory.visit("linkedin.com"))
+    result_list.append(browserHistory.forward(2))
+    result_list.append(browserHistory.back(2))
+    result_list.append(browserHistory.back(7))
+    print(result_list)
