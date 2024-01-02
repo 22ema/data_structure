@@ -8,7 +8,7 @@
             "type": "lldb",
             "request": "launch",
             "name": "Debug",
-            "program": "${workspaceFolder}/search/${fileBasenameNoExtension}",
+            "program": "${workspaceFolder}/recursion/${fileBasenameNoExtension}",
             "args": [],
             "cwd": "${workspaceFolder}"
         }
